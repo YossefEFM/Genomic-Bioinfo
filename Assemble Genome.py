@@ -94,19 +94,25 @@ def Pair_read(pair_read):
         Suffixes1.append(suffix[i][:size-1])
         Suffixes2.append(suffix[i][1:])
     
+    flag = 0
     # # Find Start and End of the path
     for x in range(len(Prefixes1)):
         if (Prefixes1[x] not in Prefixes2) or (Suffixes1[x] not in Suffixes2):
             Start = x
+            flag +=1
         if (Prefixes2[x] not in Prefixes1) or (Suffixes2[x] not in Suffixes1):
             End = x
-    
+            flag+=1
+        if flag == 2:
+            break
+            
     # # Find Path
     Result = [[Prefixes1[Start],Suffixes1[Start]],[Prefixes2[Start],Suffixes2[Start]]]
     for i in range(1,len(Prefixes1)):
         for index in range(len(Prefixes1)):
             if (Result[i][0] == Prefixes1[index]) and (Result[i][1] == Suffixes1[index]):
                 Result.append([Prefixes2[index],Suffixes2[index]])
+                break
         if (Result[i][0] == Prefixes2[End]) and (Result[i][1]== Suffixes2[End]):
             break    
 
