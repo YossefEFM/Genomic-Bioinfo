@@ -1,0 +1,45 @@
+# >>> Single Read Assembly <<<
+
+DEFINE FUNCTION Single_Read(single_read):
+    SET Right, Left, Result TO [], [], []
+    SET Start, End, N TO 0, 0, 1
+	SET Size TO int(single_read[0])
+	
+	single_read.pop(0)
+
+    FOR read IN single_read:
+        Right.append(read[1:])
+        Left.append(read[:len(read)-1])
+
+    FOR j IN range(len(Left)):
+        IF Left[j] not IN Right:
+            SET Start TO j
+            break
+
+    FOR j IN range(len(Right)):
+        IF Right[j] not IN Left:
+            SET End TO j
+            break
+
+    Result.append(Left[Start])
+    Result.append(Right[Start])
+	
+    FOR i IN range(len(Left)):
+        IF Result[N] IN Left:
+            IF Result[N] EQUALS Result[N-1]:
+                Left.remove(Result[N])
+                Right.remove(Result[N])
+
+            P_index= Left.index(Result[N])
+
+            Result.append(Right[P_index])
+        N+= 1
+
+        IF Result[N] EQUALS Right[End]:
+            break
+
+    SET concate TO Result[0]
+
+    FOR i IN range(1,len(Result)):
+        concate += Result[i][-1]
+    RETURN concate
